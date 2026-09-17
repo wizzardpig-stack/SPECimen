@@ -36,6 +36,7 @@ jobs:
           node --check overlay/src/core/stable-behavior.js
 
       - name: Run core tests
+        shell: bash
         run: npm test
 
       - name: Build Windows host and NSIS installer
