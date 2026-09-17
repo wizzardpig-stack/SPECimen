@@ -12,13 +12,12 @@
   // SPEC is a tiny drawing on a desktop-sized transparent canvas. A full clear
   // at 20-60fps is cheap on the target hardware and much safer than preserving
   // dirty rectangles through WebView2's transparent compositor. Only intercept
-  // the SPEC canvas; dev/demo canvases and every other context keep native
-  // clearRect semantics.
+  // the SPEC canvas, and only when the real Tauri host is active.
   const proto = globalThis.CanvasRenderingContext2D?.prototype;
   if (proto && !proto.__specimenFullClearPatched) {
     const nativeClearRect = proto.clearRect;
     proto.clearRect = function specimenClearRect(x, y, w, h) {
-      if (this.canvas?.id === 'spec') {
+      if (this.canvas?.id === 'spec' && globalThis.SPECIMEN?.host?.kind === 'tauri') {
         this.save();
         this.setTransform(1, 0, 0, 1, 0, 0);
         nativeClearRect.call(this, 0, 0, this.canvas.width, this.canvas.height);
@@ -39,8 +38,19 @@
   function tuneLiveOrganism() {
     const app = globalThis.SPECIMEN;
     const b = app?.behavior;
-    if (!b || app.__hardwareVisibilityTuned) return !!b;
+    if (!b) return false;
+    if (app.host?.kind !== 'tauri') return true;
+    if (app.__hardwareVisibilityTuned) return true;
     app.__hardwareVisibilityTuned = true;
+
+    // Lift the near-black renderer for a transparent real desktop without
+    // turning SPEC into a glowing mascot. Contrast below 1 raises the deepest
+    // blacks into graphite; the tiny green shadow preserves the wet rim read.
+    const canvas = document.getElementById('spec');
+    if (canvas) {
+      canvas.style.filter =
+        'brightness(1.08) contrast(0.84) saturate(1.08) drop-shadow(0 0 2px rgba(91,255,194,0.18))';
+    }
 
     // First hardware build goal: SPEC should be easy to observe before we make
     // avoidance, hiding and long rests more nuanced. Preserve personality, but
