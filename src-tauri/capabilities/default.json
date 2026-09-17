@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "The overlay window listens for host events. It requests no filesystem, shell, http or dialog permissions: SPEC cannot touch the user's files or the network (PRD 4).",
+  "windows": ["main"],
+  "permissions": ["core:default", "core:event:default", "core:window:default"]
+}

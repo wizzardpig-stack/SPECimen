@@ -1,0 +1,19 @@
+{
+  "name": "specimen",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "SPECIMEN — SPEC-01, a digital organism that lives on the desktop",
+  "scripts": {
+    "dev": "node tools/serve.mjs",
+    "test": "node --test 'tests/*.test.mjs'",
+    "test:acceptance": "node tests/first-build.mjs",
+    "tauri": "tauri",
+    "host:dev": "tauri dev",
+    "host:build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.9.0",
+    "playwright": "^1.56.0"
+  }
+}
