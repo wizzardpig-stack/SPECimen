@@ -1,0 +1,41 @@
+name: Bootstrap SPECIMEN Source
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/bootstrap-specimen.yml
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout SPECIMEN target repo
+        uses: actions/checkout@v4
+        with:
+          path: target
+
+      - name: Checkout recovered ASTRA commit
+        uses: actions/checkout@v4
+        with:
+          repository: wizzardpig-stack/astra-
+          ref: 39a253ba4543540f9a7aa0584b3965ffe114a25e
+          path: source
+
+      - name: Transplant specimen directory to repo root
+        shell: bash
+        run: |
+          rsync -a --delete --exclude='.git/' --exclude='.github/' source/specimen/ target/
+          cd target
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "SPECIMEN source already matches recovered commit."
+            exit 0
+          fi
+          git commit -m "Restore standalone SPECIMEN source"
+          git push
