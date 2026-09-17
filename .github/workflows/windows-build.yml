@@ -29,6 +29,15 @@ jobs:
       - name: Install JavaScript dependencies
         run: npm install
 
+      - name: Check stable runtime syntax
+        run: |
+          node --check overlay/src/stable-main.js
+          node --check overlay/src/core/stable-creature.js
+          node --check overlay/src/core/stable-behavior.js
+
+      - name: Run core tests
+        run: npm test
+
       - name: Build Windows host and NSIS installer
         run: npm run host:build
 
