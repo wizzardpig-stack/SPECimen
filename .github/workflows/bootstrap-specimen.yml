@@ -39,3 +39,5 @@ jobs:
           fi
           git commit -m "Restore standalone SPECIMEN source"
           git push
+
+# bootstrap trigger 2
