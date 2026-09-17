@@ -4,9 +4,9 @@
 //! window titles and process names, the cursor, display topology. No pixels, no
 //! screen capture, no input contents (PRD 4, PRD 5).
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Clone, Copy, PartialEq, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Copy, PartialEq, Debug, Default)]
 pub struct Rect {
     pub x: i32,
     pub y: i32,
