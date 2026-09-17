@@ -13,6 +13,9 @@
       desktop so the organism can be developed anywhere.
     -->
     <div id="stage"><canvas id="spec"></canvas></div>
+    <!-- Hardware corrections load first so the canvas clear path is patched
+         before the organism begins drawing its first frame. -->
+    <script src="src/hardware-tuning.js"></script>
     <script type="module" src="src/main.js"></script>
   </body>
 </html>
