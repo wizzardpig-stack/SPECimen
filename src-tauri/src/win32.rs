@@ -7,8 +7,8 @@
 
 use crate::model::{Rect, WindowInfo};
 
-use windows::core::{w, PWSTR};
-use windows::Win32::Foundation::{CloseHandle, BOOL, FALSE, HWND, LPARAM, RECT, TRUE};
+use windows::core::{w, BOOL, PWSTR};
+use windows::Win32::Foundation::{CloseHandle, FALSE, HWND, LPARAM, RECT, TRUE};
 use windows::Win32::Graphics::Dwm::{
     DwmGetWindowAttribute, DWMWA_CLOAKED, DWMWA_EXTENDED_FRAME_BOUNDS,
 };
